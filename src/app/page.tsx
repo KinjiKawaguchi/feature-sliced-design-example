@@ -1,5 +1,5 @@
-import { TodoPage } from "@/page/todo";
+import { redirect } from "next/navigation";
 
-export default function Todo() {
-  return <TodoPage />;
+export default function Home() {
+  redirect("/todo");
 }
