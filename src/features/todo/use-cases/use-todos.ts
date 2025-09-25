@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import type { Todo } from "@/entities/todo";
 import { normalizeTitle } from "@/entities/todo";
 import { useTodosAPIClient } from "../infrastructure/init/todos-port.provider";
@@ -24,7 +25,10 @@ export function useTodos() {
       qc.setQueryData(key, optimisticUpdates.complete(prev, id));
       return { prev };
     },
-    onError: (_e, _v, ctx) => ctx?.prev && qc.setQueryData(key, ctx.prev),
+    onError: (_e, _v, ctx) => {
+      ctx?.prev && qc.setQueryData(key, ctx.prev);
+      toast.error("タスクの完了に失敗しました");
+    },
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
   });
 
@@ -38,7 +42,10 @@ export function useTodos() {
       qc.setQueryData(key, optimisticUpdates.reopen(prev, id));
       return { prev };
     },
-    onError: (_e, _v, ctx) => ctx?.prev && qc.setQueryData(key, ctx.prev),
+    onError: (_e, _v, ctx) => {
+      ctx?.prev && qc.setQueryData(key, ctx.prev);
+      toast.error("タスクの再開に失敗しました");
+    },
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
   });
 
@@ -53,7 +60,10 @@ export function useTodos() {
       qc.setQueryData(key, optimisticUpdates.rename(prev, id, title));
       return { prev };
     },
-    onError: (_e, _v, ctx) => ctx?.prev && qc.setQueryData(key, ctx.prev),
+    onError: (_e, _v, ctx) => {
+      ctx?.prev && qc.setQueryData(key, ctx.prev);
+      toast.error("タスクの名前変更に失敗しました");
+    },
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
   });
 
@@ -63,6 +73,7 @@ export function useTodos() {
       await api.add(normalized);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: key }),
+    onError: () => toast.error("タスクの追加に失敗しました"),
   });
 
   const removeMut = useMutation({
@@ -75,7 +86,10 @@ export function useTodos() {
       qc.setQueryData(key, optimisticUpdates.remove(prev, id));
       return { prev };
     },
-    onError: (_e, _v, ctx) => ctx?.prev && qc.setQueryData(key, ctx.prev),
+    onError: (_e, _v, ctx) => {
+      ctx?.prev && qc.setQueryData(key, ctx.prev);
+      toast.error("タスクの削除に失敗しました");
+    },
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
   });
 
