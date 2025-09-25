@@ -5,7 +5,10 @@ import { type FormEvent, useState } from "react";
 export function useFormState() {
   const [title, setTitle] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>, onAdd: (title: string) => void) => {
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>,
+    onAdd: (title: string) => void,
+  ) => {
     event.preventDefault();
     onAdd(title);
     setTitle("");
