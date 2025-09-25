@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 import type { Todo } from "@/entities/todo";
 import { normalizeTitle } from "@/entities/todo";
 import { addTodo, getAllTodos } from "./storage";
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
     const normalizedTitle = normalizeTitle(title);
 
     const newTodo: Todo = {
-      id: Date.now().toString(),
+      id: uuidv4(),
       title: normalizedTitle,
       completed: false,
     };

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import type { Todo } from "@/entities/todo";
 import type { TodosAPIClient } from "../init/create-todos-port";
 
@@ -15,7 +16,7 @@ export class TodosApiMock implements TodosAPIClient {
   async add(title: string): Promise<Todo> {
     await new Promise((resolve) => setTimeout(resolve, 200));
     const newTodo: Todo = {
-      id: Date.now().toString(),
+      id: uuidv4(),
       title,
       completed: false,
     };
