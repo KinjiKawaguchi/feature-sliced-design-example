@@ -1,9 +1,4 @@
-// ?: features/todo-filterは機能単位の切り方として適切か？
-"use client";
-import { useState } from "react";
-import type { TodoFilter } from "@/entities/todo";
+// Public API for features/todo-filter
 
-export function useFilterState(initial: TodoFilter = "all") {
-  const [filter, setFilter] = useState<TodoFilter>(initial);
-  return { filter, setFilter };
-}
+// Model
+export { useFilterState } from "./model/use-filter-state";
